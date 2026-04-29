@@ -380,7 +380,6 @@ class PromptFromHighlevelInstruction(DataTransformFn):
     # Contains the LeRobot dataset tasks (dataset.meta.tasks).
     instruction_segments: dict
     high_level_instructions: dict | None = None
-    random_override_prob: float = 0.5
 
     def __call__(self, data: DataDict) -> DataDict:
         if "episode_index" not in data:
@@ -402,10 +401,7 @@ class PromptFromHighlevelInstruction(DataTransformFn):
 
         instruction = segments[segment_id]['instruction']
 
-        if (
-            self.high_level_instructions is not None
-            and np.random.rand() < self.random_override_prob
-        ):
+        if self.high_level_instructions is not None:
             hl = self.high_level_instructions.get(str(episode_index))
             if hl is not None:
                 hl_text = hl.get("high_level_instruction", "") if isinstance(hl, dict) else ""

@@ -6,6 +6,7 @@ from typing import Protocol, SupportsIndex, TypeVar
 
 import jax
 import jax.numpy as jnp
+import random
 import lerobot.common.datasets.lerobot_dataset as lerobot_dataset
 import numpy as np
 import torch
@@ -37,10 +38,14 @@ class SafeDataset(Dataset):
 
     def __getitem__(self, index: SupportsIndex):
         try:
-            return self.dataset[index]
+            val = self.dataset[index]
+            if val is None:
+                raise ValueError("Dataset returned None")
+            return val
         except Exception as e:
-            print(f"[Data Load Error] Skipping index {index} due to: {e}")
-            return None
+            print(f"[Data Load Error] Index {index} failed due to: {e}. Resampling...")
+            new_index = random.randint(0, len(self.dataset) - 1)
+            return self.__getitem__(new_index)
     
     def __getattr__(self, name):
         if name == 'dataset':
