@@ -220,7 +220,7 @@ class DataConfigFactory(abc.ABC):
             repo_id=repo_id,
             asset_id=asset_id,
             norm_stats=norm_stats,
-            use_quantile_norm=False,
+            use_quantile_norm=model_config.model_type != ModelType.PI0,
         )
 
     def _aggregate_norm_stats(
