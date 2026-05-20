@@ -4,12 +4,70 @@ import logging
 import time
 import traceback
 
+import cv2
+import numpy as np
 from openpi_client import base_policy as _base_policy
 from openpi_client import msgpack_numpy
 import websockets.asyncio.server as _server
 import websockets.frames
 
 logger = logging.getLogger(__name__)
+
+
+_IMAGE_KEYS = ("top_head", "hand_left", "hand_right")
+
+
+def _get(d: dict, key: str):
+    """Get a key from a msgpack-decoded dict, tolerating bytes vs str keys."""
+    if key in d:
+        return d[key]
+    bkey = key.encode("utf-8")
+    if bkey in d:
+        return d[bkey]
+    return None
+
+
+def _maybe_decode_image(d):
+    """Return HWC RGB uint8. Pass through if already a numpy array (legacy clients).
+
+    Client encodes obs RGB → BGR → JPEG; we invert that here so downstream policy
+    code sees RGB HWC, matching the legacy uncompressed contract.
+    """
+    if isinstance(d, dict) and (_get(d, "__jpeg__")):
+        raw = _get(d, "data")
+        arr = np.frombuffer(raw, dtype=np.uint8)
+        img = cv2.imdecode(arr, cv2.IMREAD_COLOR)  # HWC BGR
+        if img is None:
+            raise ValueError("Failed to JPEG-decode image payload")
+        return cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    return d
+
+
+def _maybe_decode_depth(d):
+    """Return HW uint16 (scaled, same as before). Pass through legacy numpy arrays."""
+    if isinstance(d, dict) and (_get(d, "__png16__")):
+        raw = _get(d, "data")
+        arr = np.frombuffer(raw, dtype=np.uint8)
+        img = cv2.imdecode(arr, cv2.IMREAD_UNCHANGED)  # HW uint16
+        if img is None:
+            raise ValueError("Failed to PNG-decode depth payload")
+        return img
+    return d
+
+
+def _normalize_payload(payload: dict) -> dict:
+    """Decode compressed images/depth fields in-place produced by PiPolicy clients."""
+    images = payload.get("images") if isinstance(payload, dict) else None
+    if isinstance(images, dict):
+        for k in _IMAGE_KEYS:
+            if k in images:
+                images[k] = _maybe_decode_image(images[k])
+    depth = payload.get("depth") if isinstance(payload, dict) else None
+    if isinstance(depth, dict):
+        for k in _IMAGE_KEYS:
+            if k in depth:
+                depth[k] = _maybe_decode_depth(depth[k])
+    return payload
 
 
 class WebsocketPolicyServer:
@@ -56,6 +114,7 @@ class WebsocketPolicyServer:
             try:
                 start_time = time.monotonic()
                 obs = msgpack_numpy.unpackb(await websocket.recv())
+                obs = _normalize_payload(obs)
 
                 infer_time = time.monotonic()
                 action = self._policy.infer(obs)
