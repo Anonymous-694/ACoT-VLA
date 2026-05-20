@@ -2,6 +2,7 @@ import dataclasses
 import functools
 import logging
 import platform
+import random
 from typing import Any
 import os
 import etils.epath as epath
@@ -257,6 +258,11 @@ def main(config: _config.TrainConfig):
         )
 
     jax.config.update("jax_compilation_cache_dir", str(epath.Path("~/.cache/jax").expanduser()))
+
+    # Seed Python and NumPy global RNGs alongside JAX so every randomness source
+    # in data sampling / SafeDataset / FrameSampler is reproducible from config.seed.
+    random.seed(config.seed)
+    np.random.seed(config.seed)
 
     rng = jax.random.key(config.seed)
     train_rng, init_rng = jax.random.split(rng)

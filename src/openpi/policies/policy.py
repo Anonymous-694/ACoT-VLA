@@ -47,7 +47,10 @@ class Policy(BasePolicy):
         inputs = jax.tree.map(lambda x: jnp.asarray(x)[np.newaxis, ...], inputs)
 
         start_time = time.monotonic()
-        self._rng, sample_rng = jax.random.split(self._rng)         
+        # Use a fixed RNG every call so identical payloads produce identical outputs.
+        # We intentionally do NOT split self._rng across calls; advancing it would make
+        # consecutive infers non-reproducible even with the same observation.
+        sample_rng = self._rng
         outputs = {
             "state": inputs["state"]
         }
