@@ -72,23 +72,37 @@ class Policy(BasePolicy):
         }
         return self.post_process(obs, outputs)
 
+    # Task names whose policy output includes waist control (4 dims at [16:20]).
+    # All other tasks only use the first 16 hand-action dims.
+    TASK_NAME_REQUIRING_WAIST = (
+        "sorting_packages",
+        "sorting_packages_continuous",
+        "sorting_packages_part_1",
+        "sorting_packages_part_2",
+        "sorting_packages_part_3",
+    )
+
     def post_process(self, obs: dict, outputs: dict) -> dict:
-        task_name_requiring_waist = ["sorting_packages", "sorting_packages_continuous"]
         task_name = jax.tree.map(lambda x: x, obs).get("task_name", None)
 
         if task_name is None:
             return outputs
 
-        print(f"Policy infering for task: {task_name}, with inference time: {outputs['policy_timing']['infer_ms']:.3f} ms")
-        if task_name not in task_name_requiring_waist:
-            # cut off waist actions for tasks that don't require it
-            outputs["actions"] = outputs["actions"][:, :16]
+        print(
+            f"Policy infering for task: {task_name}, "
+            f"with inference time: {outputs['policy_timing']['infer_ms']:.3f} ms"
+        )
 
-        else:
+        if task_name in self.TASK_NAME_REQUIRING_WAIST:
             raw_state = jax.tree.map(lambda x: x, obs).get("state", None)
             assert raw_state is not None, "State is required for post-processing waist actions"
-            # freeze four waist actions to the current state, utilizing only the last action for policy output
+            # Freeze waist dims 16..19 to the current state; dim 20 (last waist joint) is
+            # left to the policy. Matches compare/openpi training mask, where waist[0..3]
+            # are masked out as supervision targets and only waist[4] is learned.
             outputs["actions"][:, 16:20] = raw_state[16:20]
+        else:
+            # Cut off waist (and any extra) action dims for tasks that only use the hands.
+            outputs["actions"] = outputs["actions"][:, :16]
 
         return outputs
 

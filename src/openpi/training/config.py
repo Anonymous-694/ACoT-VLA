@@ -1211,6 +1211,11 @@ class LerobotGo1DataConfig(DataConfigFactory):
     state_keys: Sequence[str] = ("state/joint/position", "state/left_effector/position", "state/right_effector/position")
     action_keys: Sequence[str] = ("action/joint/position", "action/left_effector/position", "action/right_effector/position")
 
+    # If True, append waist (5 dim) to state/action keys so dims 16..20 carry waist
+    # joint position instead of zero padding. Requires state/waist/position and
+    # action/waist/position fields in the dataset's meta/info.json.
+    include_waist: bool = False
+
     repack_transforms: tyro.conf.Suppress[_transforms.Group] = dataclasses.field(
         default=_transforms.Group(
             inputs=[
@@ -1242,19 +1247,35 @@ class LerobotGo1DataConfig(DataConfigFactory):
     def create(self, assets_dirs: pathlib.Path, model_config: _model.BaseModelConfig) -> DataConfig:
         repo_id = self.repo_id if self.repo_id is not tyro.MISSING else None
 
+        state_keys = tuple(self.state_keys)
+        action_keys = tuple(self.action_keys)
+        if self.include_waist:
+            state_keys = state_keys + ("state/waist/position",)
+            action_keys = action_keys + ("action/waist/position",)
+
         state_indices = None
         action_indices = None
         if repo_id is not None:
             try:
-                state_indices = tuple(go1_policy.load_field_indices(repo_id, "observation.state", self.state_keys))
-                action_indices = tuple(go1_policy.load_field_indices(repo_id, "action", self.action_keys))
+                state_indices = tuple(go1_policy.load_field_indices(repo_id, "observation.state", state_keys))
+                action_indices = tuple(go1_policy.load_field_indices(repo_id, "action", action_keys))
             except (FileNotFoundError, KeyError) as e:
                 logging.warning("Could not load field indices from info.json, falling back to no remapping: %s", e)
 
-        if self.mask_gripper_state:
+        if self.include_waist:
+            # Match compare/openpi LerobotGo2DataConfig:
+            # state[14:20] (gripper + waist[0..3]) is zeroed, only state[20] (waist[4]) is kept.
+            # action[16:20] (waist[0..3]) is zeroed, only action[20] (waist[4]) is supervised.
+            pad = model_config.action_dim - 21
+            assert pad >= 0, f"action_dim ({model_config.action_dim}) must be >= 21 for include_waist=True"
+            state_mask = np.array(_transforms.make_bool_mask(-14, 2, 4, -1, pad))
+            action_mask = np.array(_transforms.make_bool_mask(-16, 4, -1, pad))
+        elif self.mask_gripper_state:
             state_mask = np.array(_transforms.make_bool_mask(-14, 18))
+            action_mask = self.action_mask
         else:
             state_mask = np.array(_transforms.make_bool_mask(-16, 16))
+            action_mask = self.action_mask
 
         data_transforms = _transforms.Group(
             inputs=[
@@ -1262,7 +1283,7 @@ class LerobotGo1DataConfig(DataConfigFactory):
                     action_dim=model_config.action_dim,
                     model_type=model_config.model_type,
                     state_mask=state_mask,
-                    action_mask=self.action_mask,
+                    action_mask=action_mask,
                     state_indices=state_indices,
                     action_indices=action_indices,
                 )
@@ -1271,7 +1292,15 @@ class LerobotGo1DataConfig(DataConfigFactory):
         )
 
         if self.use_delta_joint_actions:
-            delta_action_mask = _transforms.make_bool_mask(14, -2, 6)
+            if self.include_waist:
+                # Match compare/openpi LerobotGo2DataConfig exactly:
+                # delta on 14 joints + everything past the 2 grippers (incl. waist).
+                # state_mask zeroes waist[0..3] so their delta is a no-op; only
+                # waist[4] (dim 20) actually moves through delta space, which is
+                # what the compare-repo checkpoint was trained on.
+                delta_action_mask = _transforms.make_bool_mask(14, -2, 16)
+            else:
+                delta_action_mask = _transforms.make_bool_mask(14, -2, 6)
 
             data_transforms = data_transforms.push(
                 inputs=[_transforms.DeltaActions(delta_action_mask)],
@@ -2276,6 +2305,61 @@ _CONFIGS = [
         num_workers=24 if not os.getenv("DEBUG_MODE", default=False) == "true" else 2,
         batch_size=256 if not os.getenv("DEBUG_MODE", default=False) == "true" else 2,
         num_train_steps=40_000,
+        save_interval=5000 if not os.getenv("DEBUG_MODE", default=False) == "true" else 1000,
+    ),
+    # ICRA challenge full-data fine-tune (pi0.5)
+    TrainConfig(
+        name="pi05_g02_icra_simulation_challenge_reasoning_to_action_full_data",
+        model=pi0.Pi0Config(pi05=True, action_horizon=30, max_token_len=220),
+        data=LerobotGo1DataConfig(
+            repo_id=[
+                # Pouring workpieces, single-arm task, uses right hand only
+                "/mnt/public/public_datasets/AgiBotWorldChallenge-ICRA/pour_workpiece",
+                # Opening a door, single-arm task, uses right hand only
+                "/mnt/public/public_datasets/AgiBotWorldChallenge-ICRA/open_door",
+                # Scooping popcorn, single-arm task, uses right hand only
+                "/mnt/public/public_datasets/AgiBotWorldChallenge-ICRA/scoop_popcorn",
+                "/mnt/public/public_datasets/AgiBotWorldChallenge-ICRA/scoop_popcorn_part_2",
+                # Carrying a pot, dual-arm task, uses both hands simultaneously
+                "/mnt/public/public_datasets/AgiBotWorldChallenge-ICRA/hold_pot",
+                # Grabbing toys, dual-arm task, uses left or right hand based on instruction
+                "/mnt/public/public_datasets/AgiBotWorldChallenge-ICRA/place_block_into_box",
+                # Supermarket item retrieval, dual-arm task, uses left or right hand based on instruction
+                "/mnt/public/public_datasets/AgiBotWorldChallenge-ICRA/take_wrong_item_shelf",
+                # Supermarket restocking, dual-arm task, uses left or right hand based on instruction
+                "/mnt/public/public_datasets/AgiBotWorldChallenge-ICRA/stock_and_straighten_shelf",
+                "/mnt/public/public_datasets/AgiBotWorldChallenge-ICRA/stock_and_straighten_shelf_part_2",
+                # Packages sorting, single-arm task but involves waist movement
+                "/mnt/public/public_datasets/AgiBotWorldChallenge-ICRA/sorting_packages_part_1",
+                "/mnt/public/public_datasets/AgiBotWorldChallenge-ICRA/sorting_packages_part_2",
+                "/mnt/public/public_datasets/AgiBotWorldChallenge-ICRA/sorting_packages_part_3",
+                # Arranging the table, dual-arm task, uses both hands simultaneously
+                "/mnt/public/public_datasets/AgiBotWorldChallenge-ICRA/clean_the_desktop_part_1",
+                "/mnt/public/public_datasets/AgiBotWorldChallenge-ICRA/clean_the_desktop_part_2",
+            ],
+            assets=AssetsConfig(
+                assets_dir=None,
+                asset_id="/mnt/zhonglinqing/data/datasets/genie_sim_icra_datasets/nine_dataset_merge_vanilla_assets",
+            ),
+            default_prompt=None,
+            use_delta_joint_actions=True,
+            include_waist=True,
+            output_dim=21,
+            base_config=DataConfig(dataloader_sampler="subtask", prompt_from_hl_instruction=True),
+        ),
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=10_000,
+            peak_lr=5e-5,
+            decay_steps=1_000_000,
+            decay_lr=5e-5,
+        ),
+        optimizer=_optimizer.AdamW(clip_gradient_norm=1.0),
+        ema_decay=0.999,
+        weight_loader=weight_loaders.CheckpointWeightLoader("/mnt/public/zhonglinqing/pkgs/pi05_model/params"),
+        num_workers=24 if not os.getenv("DEBUG_MODE", default=False) == "true" else 2,
+        batch_size=256 if not os.getenv("DEBUG_MODE", default=False) == "true" else 2,
+        num_train_steps=50_000,
+        resume=True,
         save_interval=5000 if not os.getenv("DEBUG_MODE", default=False) == "true" else 1000,
     ),
     # genie sim 3.0 sim2real task config
