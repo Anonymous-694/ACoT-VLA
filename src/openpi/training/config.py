@@ -1242,6 +1242,9 @@ class LerobotGo1DataConfig(DataConfigFactory):
 
     state_mask = np.array(_transforms.make_bool_mask(-16, 16))
     action_mask = np.array(_transforms.make_bool_mask(-16, 16))
+    delta_action_mask: Sequence[bool] = dataclasses.field(
+        default_factory=lambda: list(_transforms.make_bool_mask(14, -2, 6))
+    )
 
     @override
     def create(self, assets_dirs: pathlib.Path, model_config: _model.BaseModelConfig) -> DataConfig:
@@ -2173,6 +2176,7 @@ _CONFIGS = [
             default_prompt=None,
             use_delta_joint_actions=True,
             output_dim=16,
+            delta_action_mask=list(_transforms.make_bool_mask(14, -2, 16)),
             base_config=DataConfig(dataloader_sampler="subtask", prompt_from_hl_instruction=True),
         ),
         lr_schedule=_optimizer.CosineDecaySchedule(
