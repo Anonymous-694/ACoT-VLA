@@ -1242,9 +1242,8 @@ class LerobotGo1DataConfig(DataConfigFactory):
 
     state_mask = np.array(_transforms.make_bool_mask(-16, 16))
     action_mask = np.array(_transforms.make_bool_mask(-16, 16))
-    delta_action_mask: Sequence[bool] = dataclasses.field(
-        default_factory=lambda: list(_transforms.make_bool_mask(14, -2, 6))
-    )
+    # If None, create() picks the default based on include_waist.
+    delta_action_mask: Sequence[bool] | None = None
 
     @override
     def create(self, assets_dirs: pathlib.Path, model_config: _model.BaseModelConfig) -> DataConfig:
@@ -1295,7 +1294,9 @@ class LerobotGo1DataConfig(DataConfigFactory):
         )
 
         if self.use_delta_joint_actions:
-            if self.include_waist:
+            if self.delta_action_mask is not None:
+                delta_action_mask = self.delta_action_mask
+            elif self.include_waist:
                 # Match compare/openpi LerobotGo2DataConfig exactly:
                 # delta on 14 joints + everything past the 2 grippers (incl. waist).
                 # state_mask zeroes waist[0..3] so their delta is a no-op; only
@@ -2153,30 +2154,30 @@ _CONFIGS = [
         num_train_steps=50_000,
         save_interval=5000 if not os.getenv("DEBUG_MODE", default=False) == "true" else 1000,
     ),
+    # genie sim instruction and robust (pi05)
     TrainConfig(
-        name="pi05_genie_sim_instruction_20260519",
+        name="pi05_genie_sim_instruction_and_robust_20260526",
         model=pi0.Pi0Config(pi05=True, action_horizon=50, discrete_state_input=True),
         data=LerobotGo1DataConfig(
             repo_id=[
-                "/mnt/public/linyiren/data/geniesim_5500/pick_block_color_500",
-                "/mnt/public/linyiren/data/geniesim_5500/pick_block_number_500",
-                "/mnt/public/linyiren/data/geniesim_5500/pick_block_shape_500",
-                "/mnt/public/linyiren/data/geniesim_5500/pick_block_size_500",
-                "/mnt/public/linyiren/data/geniesim_5500/pick_common_sense_500",
-                "/mnt/public/linyiren/data/geniesim_5500/pick_object_type_500",
-                "/mnt/public/linyiren/data/geniesim_5500/pick_specific_object_500",
-                "/mnt/public/linyiren/data/geniesim_5500/straighten_object_500",
-                "/mnt/public/linyiren/data/geniesim_5500/pick_follow_logic_(or)_500",
-                "/mnt/public/linyiren/data/geniesim_5500/pick_billards_color_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_block_color_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_block_number_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_block_shape_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_block_size_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_common_sense_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_object_type_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_specific_object_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/straighten_object_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_follow_logic_(or)_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_billards_color_500",
             ],
             assets=AssetsConfig(
                 assets_dir=None,
-                asset_id="/mnt/public/jincheng/train/lerobot/pi05_genie_sim_instruction_20260519",
+                asset_id="/mnt/public/jincheng/train/lerobot/pi05_genie_sim_instruction_and_robust_20260526",
             ),
             default_prompt=None,
             use_delta_joint_actions=True,
             output_dim=16,
-            delta_action_mask=list(_transforms.make_bool_mask(14, -2, 16)),
             base_config=DataConfig(dataloader_sampler="subtask", prompt_from_hl_instruction=True),
         ),
         lr_schedule=_optimizer.CosineDecaySchedule(
@@ -2193,27 +2194,27 @@ _CONFIGS = [
         batch_size=256 if not os.getenv("DEBUG_MODE", default=False) == "true" else 2,
         num_train_steps=50_000,
         save_interval=5000 if not os.getenv("DEBUG_MODE", default=False) == "true" else 1000,
-    ),
-    # genie sim 10 mini tasks (pi0)
+    ), 
+    # genie sim instruction and robust (pi0)
     TrainConfig(
-        name="pi0_genie_sim_10_mini_task_20260312",
+        name="pi0_genie_sim_instruction_and_robust_20260526",
         model=pi0.Pi0Config(pi05=False, action_horizon=50),
         data=LerobotGo1DataConfig(
             repo_id=[
-                "/mnt/public/linyiren/data/geniesim/pick_block_color_500",
-                "/mnt/public/linyiren/data/geniesim/pick_block_number_500",
-                "/mnt/public/linyiren/data/geniesim/pick_block_shape_500",
-                "/mnt/public/linyiren/data/geniesim/pick_block_size_500",
-                "/mnt/public/linyiren/data/geniesim/pick_common_sense_500",
-                "/mnt/public/linyiren/data/geniesim/pick_object_type_500",
-                "/mnt/public/linyiren/data/geniesim/pick_specific_object_500",
-                "/mnt/public/linyiren/data/geniesim/straighten_object_500",
-                "/mnt/public/linyiren/data/geniesim/pick_follow_logic_(or)_500",
-                "/mnt/public/jincheng/data/pick_billards_color_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_block_color_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_block_number_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_block_shape_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_block_size_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_common_sense_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_object_type_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_specific_object_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/straighten_object_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_follow_logic_(or)_500",
+                "/mnt/public/linyiren/data/geniesim_data/instruction_and_robust/v21/pick_billards_color_500",
             ],
             assets=AssetsConfig(
                 assets_dir=None,
-                asset_id="/mnt/public/zhonglinqing/data/datasets/genie_sim_icra_datasets/ten_mini_task_merge_vanilla_20260213",
+                asset_id="/mnt/public/jincheng/train/lerobot/pi05_genie_sim_instruction_and_robust_20260526",
             ),
             default_prompt=None,
             use_delta_joint_actions=True,
@@ -2309,6 +2310,51 @@ _CONFIGS = [
         num_workers=24 if not os.getenv("DEBUG_MODE", default=False) == "true" else 2,
         batch_size=256 if not os.getenv("DEBUG_MODE", default=False) == "true" else 2,
         num_train_steps=40_000,
+        save_interval=5000 if not os.getenv("DEBUG_MODE", default=False) == "true" else 1000,
+    ),
+     TrainConfig(
+        name="pi05_genie_sim_manip_20260526",
+        model=pi0.Pi0Config(pi05=True, action_horizon=30, max_token_len=220),
+        data=LerobotGo1DataConfig(
+            repo_id=[
+                "/mnt/public/linyiren/data/geniesim_data/manipulation/v21/pour_workpiece",
+                "/mnt/public/linyiren/data/geniesim_data/manipulation/v21/open_door",
+                "/mnt/public/linyiren/data/geniesim_data/manipulation/v21/scoop_popcorn",
+                "/mnt/public/linyiren/data/geniesim_data/manipulation/v21/scoop_popcorn_part_2",
+                "/mnt/public/linyiren/data/geniesim_data/manipulation/v21/hold_pot",
+                "/mnt/public/linyiren/data/geniesim_data/manipulation/v21/place_block_into_box",
+                "/mnt/public/linyiren/data/geniesim_data/manipulation/v21/take_wrong_item_shelf",
+                "/mnt/public/linyiren/data/geniesim_data/manipulation/v21/stock_and_straighten_shelf",
+                "/mnt/public/linyiren/data/geniesim_data/manipulation/v21/stock_and_straighten_shelf_part_2",
+                "/mnt/public/linyiren/data/geniesim_data/manipulation/v21/sorting_packages_part_1",
+                "/mnt/public/linyiren/data/geniesim_data/manipulation/v21/sorting_packages_part_2",
+                "/mnt/public/linyiren/data/geniesim_data/manipulation/v21/sorting_packages_part_3",
+                "/mnt/public/linyiren/data/geniesim_data/manipulation/v21/clean_the_desktop_part_1",
+                "/mnt/public/linyiren/data/geniesim_data/manipulation/v21/clean_the_desktop_part_2",
+            ],
+            assets=AssetsConfig(
+                assets_dir=None,
+                asset_id="/mnt/public/jincheng/train/lerobot/pi05_genie_sim_manip_20260526",
+            ),
+            default_prompt=None,
+            use_delta_joint_actions=True,
+            include_waist=True,
+            output_dim=21,
+            base_config=DataConfig(dataloader_sampler="subtask", prompt_from_hl_instruction=True),
+        ),
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=10_000,
+            peak_lr=5e-5,
+            decay_steps=1_000_000,
+            decay_lr=5e-5,
+        ),
+        optimizer=_optimizer.AdamW(clip_gradient_norm=1.0),
+        ema_decay=0.999,
+        weight_loader=weight_loaders.CheckpointWeightLoader("/mnt/public/zhonglinqing/pkgs/pi05_model/params"),
+        num_workers=24 if not os.getenv("DEBUG_MODE", default=False) == "true" else 2,
+        batch_size=256 if not os.getenv("DEBUG_MODE", default=False) == "true" else 2,
+        num_train_steps=50_000,
+        resume=True,
         save_interval=5000 if not os.getenv("DEBUG_MODE", default=False) == "true" else 1000,
     ),
     # ICRA challenge full-data fine-tune (pi0.5)
