@@ -1279,6 +1279,13 @@ class LerobotGo1DataConfig(DataConfigFactory):
             state_mask = np.array(_transforms.make_bool_mask(-16, 16))
             action_mask = self.action_mask
 
+        # Keep the masks used by _apply_norm_stats_mask (read from self) in sync with
+        # the runtime mask used by Go1Inputs above. Without this, include_waist=True
+        # leaves dim 20 (waist[4]) live at runtime but zeroed in norm_stats, so quantile
+        # normalize divides by ~0 and produces values in the hundreds — blowing up loss.
+        object.__setattr__(self, 'state_mask', state_mask)
+        object.__setattr__(self, 'action_mask', action_mask)
+
         data_transforms = _transforms.Group(
             inputs=[
                 go1_policy.Go1Inputs(
