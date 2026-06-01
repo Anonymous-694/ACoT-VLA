@@ -2245,21 +2245,22 @@ _CONFIGS = [
     ),
     # genie sim spatial tasks (pi0.5)
     TrainConfig(
-        name="pi05_genie_sim_spatial_20260511",
+        name="pi05_genie_sim_spatial_20260528",
         model=pi0.Pi0Config(pi05=True, action_horizon=50, discrete_state_input=True),
         data=LerobotGo1DataConfig(
             repo_id=[
-                "/mnt/public/jincheng/data/spatial/task_7647",
-                "/mnt/public/jincheng/data/spatial/task_7697",
-                "/mnt/public/jincheng/data/spatial/task_7687",
-                "/mnt/public/jincheng/data/spatial/task_7651",
-                "/mnt/public/jincheng/data/spatial/task_7644",
-                "/mnt/public/jincheng/data/spatial/task_9311",
-                "/mnt/public/jincheng/data/spatial/task_9458",
+                "/mnt/public/linyiren/data/geniesim_data/spatial/v21/pick_object_relative_position_absolute",
+                "/mnt/public/linyiren/data/geniesim_data/spatial/v21/pick_object_relative_position_relative",
+                "/mnt/public/linyiren/data/geniesim_data/spatial/v21/place_beverage_to_anothers_position",
+                "/mnt/public/linyiren/data/geniesim_data/spatial/v21/place_object_relative_position",
+                "/mnt/public/linyiren/data/geniesim_data/spatial/v21/sort_cubes_by_size",
+                "/mnt/public/linyiren/data/geniesim_data/spatial/v21/sort_number_from_small_to_big",
+                "/mnt/public/linyiren/data/geniesim_data/spatial/v21/stack_bowls",
+                "/mnt/public/linyiren/data/geniesim_data/spatial/v21/stack_three_building_blocks"
             ],
             assets=AssetsConfig(
                 assets_dir=None,
-                asset_id="/mnt/public/jincheng/train/lerobot/pi05_genie_sim_spatial_20260511",
+                asset_id="/mnt/public/jincheng/train/lerobot/pi05_genie_sim_spatial_20260528",
             ),
             default_prompt=None,
             use_delta_joint_actions=True,
