@@ -102,7 +102,7 @@ def main(config_name: str, max_frames: int | None = None, output_path: str = "./
     keys = ["state", "actions", "coarse_actions"]
     stats = {key: normalize.RunningStats() for key in keys}
 
-    sample_ratio = 0.2
+    sample_ratio = 0.1
     max_batches = int(num_batches * sample_ratio)
 
     data_iter = iter(data_loader)

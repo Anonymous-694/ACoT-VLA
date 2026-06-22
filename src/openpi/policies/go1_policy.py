@@ -138,6 +138,8 @@ class Go1ACOTInputs(transforms.DataTransformFn):
 
     state_mask: np.ndarray | None = None
     action_mask: np.ndarray | None = None
+    state_indices: tuple[int, ...] | None = None
+    action_indices: tuple[int, ...] | None = None
 
     # The expected cameras names. All input cameras must be in this set. Missing cameras will be
     # replaced with black images and the corresponding `image_mask` will be set to False.
@@ -151,9 +153,10 @@ class Go1ACOTInputs(transforms.DataTransformFn):
     acot_action_generation: Sequence[Sequence[int]] | None = None
 
     def __call__(self, data: dict) -> dict:
-        if len(data["state"]) == 190:
-            indices = list(range(54, 68)) + [0, 1]
-            data["state"] = data["state"][indices]
+        # Remap raw dataset state to [joints..., grippers] via field_descriptions indices
+        # (from info.json), so any layout (legacy 190, v21 183, ...) works without hardcoding.
+        if self.state_indices is not None and len(data["state"]) > max(self.state_indices):
+            data["state"] = data["state"][list(self.state_indices)]
         state = transforms.pad_to_dim(data["state"], self.action_dim)
 
         state = copy.deepcopy(state)
@@ -206,8 +209,8 @@ class Go1ACOTInputs(transforms.DataTransformFn):
         
         for key in ['coarse_actions', 'actions']:
             if key in data:
-                if data[key].shape[1] == 36:
-                    data[key] = np.column_stack((data[key][:, 16:30], data[key][:, 0], data[key][:, 1]))
+                if self.action_indices is not None and data[key].shape[1] > max(self.action_indices):
+                    data[key] = data[key][:, list(self.action_indices)]
                 if self.action_mask is not None:
                     data[key][:, self.action_mask[:data[key].shape[1]]] = 0
                 data[key] = transforms.pad_to_dim(data[key], self.action_dim)

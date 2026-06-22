@@ -97,8 +97,8 @@ class Policy(BasePolicy):
             raw_state = jax.tree.map(lambda x: x, obs).get("state", None)
             assert raw_state is not None, "State is required for post-processing waist actions"
             # Freeze waist dims 16..19 to the current state; dim 20 (last waist joint) is
-            # left to the policy. Matches compare/openpi training mask, where waist[0..3]
-            # are masked out as supervision targets and only waist[4] is learned.
+            # left to the policy. The full waist (16..20) is returned so the client maps
+            # it positionally; the frozen dims simply hold the current pose.
             outputs["actions"][:, 16:20] = raw_state[16:20]
         else:
             # Cut off waist (and any extra) action dims for tasks that only use the hands.
