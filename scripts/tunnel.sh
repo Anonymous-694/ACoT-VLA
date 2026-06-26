@@ -40,10 +40,10 @@ case "${board}" in
     board_config="pi05_genie_sim_instruction_and_robust_20260526"
     board_ckpt="checkpoints/instruction_and_robust_pi05" ;;
   spatial)
-    board_config="pi05_genie_sim_spatial_20260511"
+    board_config="pi05_genie_sim_spatial_20260528"
     board_ckpt="checkpoints/spatial_pi05" ;;
   manip)
-    board_config="pi05_genie_sim_manip_20260526"
+    board_config="pi05_genie_sim_manip_20260613"
     board_ckpt="checkpoints/manipulation_pi05" ;;
   *)
     echo "error: 未知 PI05_BOARD='${board}' (取值: instruction|robust|spatial|manip)" >&2
