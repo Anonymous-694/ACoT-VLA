@@ -36,6 +36,9 @@ class EnvMode(enum.Enum):
     S2R_PACK_IN_SUPERMARKET = "s2r_pack_in_supermarket"
     S2R_BIMANUAL_CHIP_HANDOVER = "s2r_bimanual_chip_handover"
     S2R_PLACE_BLOCK_INTO_DRAWER = "s2r_place_block_into_drawer"
+    PI05_GENIE_SIM_INSTRUCTION_AND_ROBUST = "pi05_genie_sim_instruction_and_robust"
+    PI05_GENIE_SIM_SPATIAL = "pi05_genie_sim_spatial"
+    PI05_GENIE_SIM_MANIP = "pi05_genie_sim_manip"
 
 
 @dataclasses.dataclass
@@ -135,6 +138,18 @@ DEFAULT_CHECKPOINT: dict[EnvMode, Checkpoint] = {
     EnvMode.S2R_PLACE_BLOCK_INTO_DRAWER: Checkpoint(
         config="s2r_place_block_into_drawer",
         dir="./checkpoints/place_block_into_drawer/",
+    ),
+     EnvMode.PI05_GENIE_SIM_INSTRUCTION_AND_ROBUST: Checkpoint(
+        config="pi05_genie_sim_instruction_and_robust_20260526",
+        dir="./checkpoints/instruction_and_robust/",
+    ),
+    EnvMode.PI05_GENIE_SIM_SPATIAL: Checkpoint(
+        config="pi05_genie_sim_spatial_20260528",
+        dir="./checkpoints/spatial/",
+    ),
+    EnvMode.PI05_GENIE_SIM_MANIP: Checkpoint(
+        config="pi05_genie_sim_manip_20260613",
+        dir="./checkpoints/manipulation/",
     ),
 }
 
