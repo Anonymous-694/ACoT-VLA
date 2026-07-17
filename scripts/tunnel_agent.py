@@ -378,7 +378,7 @@ class TunnelClient:
                     return
             elif isinstance(msg, (bytes, bytearray)):
                 self._spawn(self._handle_data(ws, bytes(msg)))
-                print("/n/n/n[tunnel_agent] data Received/n/n/n")
+                logger.info("data frame received")
 
     def _spawn(self, coro) -> asyncio.Task:
         task = asyncio.create_task(coro)
@@ -399,10 +399,7 @@ class TunnelClient:
             try:
                 await self._invoke_handler("", b"")
             except Exception as exc:  # noqa: BLE001
-                print(
-                    f"[tunnel_agent] warmup failed: {type(exc).__name__}: {exc}",
-                    file=sys.stderr,
-                )
+                logger.info("warmup failed: %s: %s", type(exc).__name__, exc)
                 traceback.print_exc(file=sys.stderr)
                 return
             await ws.send(json.dumps({"type": "ready"}))
@@ -513,16 +510,10 @@ def main(argv=None) -> int:
     )
     ns = parse_args(argv)
     if not ns.gateway_url:
-        print(
-            "error: 需要 --gateway-url 或 SIMUBOTIX_GATEWAY_URL 环境变量",
-            file=sys.stderr,
-        )
+        logger.info("需要 --gateway-url 或 SIMUBOTIX_GATEWAY_URL 环境变量")
         return 1
     if not ns.access_token:
-        print(
-            "error: 需要 --access-token 或 CHALLENGE_TOKEN 环境变量",
-            file=sys.stderr,
-        )
+        logger.info("需要 --access-token 或 CHALLENGE_TOKEN 环境变量")
         return 1
 
     handler = PolicyHandler(
@@ -551,7 +542,7 @@ def main(argv=None) -> int:
     except KeyboardInterrupt:
         return 130
     except TunnelExhausted as exc:
-        print(f"error: 隧道重连耗尽: {exc}", file=sys.stderr)
+        logger.info("隧道重连耗尽: %s", exc)
         return 1
     return 0
 
