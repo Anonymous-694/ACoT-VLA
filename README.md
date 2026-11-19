@@ -1,4 +1,9 @@
 # ACoT-VLA: Action Chain-of-Thought for Vision-Language-Action Models
+
+## Additional four-track simulation support
+
+WBC, dexterous manipulation, fine manipulation and multi-embodiment training and inference are available in the additive `openpi.four_tracks` package. See [four-track setup and checkpoint serving](docs/four_tracks.md). These use separate `train_four_tracks.py` and `serve_four_tracks.py` entrypoints; the original ACoT models, training configs, scripts and client protocol remain available.
+
 [![arXiv](https://img.shields.io/badge/arXiv-2601.11404-b31b1b.svg)](https://arxiv.org/pdf/2601.11404v2)
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Paper-yellow.svg)](https://huggingface.co/papers/2601.11404)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)

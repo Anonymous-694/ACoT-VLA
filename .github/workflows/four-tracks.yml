@@ -1,0 +1,14 @@
+name: Four-track extension CPU checks
+on: [push, pull_request]
+jobs:
+  cpu:
+    runs-on: ubuntu-latest
+    env:
+      GIT_LFS_SKIP_SMUDGE: '1'
+      JAX_PLATFORMS: cpu
+      CUDA_VISIBLE_DEVICES: ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --group four-tracks --frozen
+      - run: uv run --group four-tracks --frozen pytest src/openpi/four_tracks packages/openpi-client/src -k 'not tokenize and not with_real_dataset'

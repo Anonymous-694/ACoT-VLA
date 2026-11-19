@@ -1,0 +1,71 @@
+{
+  "_comment": [
+    "client task_name -> per-robot norm_stats group, for four-track unified62.",
+    "The key is the task_name the simulation client puts in the infer payload, NOT the repo_id",
+    "directory name in config.py -- the two differ for almost every task.",
+    "A value that is an object is keyed by robot_type: used only for the one task name that",
+    "all four multi-robot embodiments share.",
+    "Picking the wrong group does not raise: PerRobotNormalize falls back to no normalization,",
+    "the server answers normally and only the actions are garbage. So an unknown name is an error."
+  ],
+
+  "clean_the_blackboard": "g2_ctek90d_wbc",
+  "match_and_pick_from_conveyor": "g2_ctek90d_wbc",
+  "open_the_door": "g2_ctek90d_wbc",
+  "open_the_roller_shutter": "g2_ctek90d_wbc",
+  "pick_up_trash_wbc": "g2_ctek90d_wbc",
+  "put_the_plates_on_the_shelf": "g2_ctek90d_wbc",
+  "sending_food": "g2_ctek90d_wbc",
+  "transport_cartons_to_table_wbc": "g2_ctek90d_wbc",
+
+  "insert_building_block": "g2_ctek90d_manip",
+  "insert_coin_into_money_box": "g2_ctek90d_manip",
+  "insert_ethernet_cable": "g2_ctek90d_manip",
+  "insert_straw_into_milk_tea_cup": "g2_ctek90d_manip",
+  "install_bearing_shaft_seat5mm": "g2_ctek90d_manip",
+  "phone_packaging": "g2_ctek90d_manip",
+  "plug_charging_cable_into_phone": "g2_ctek90d_manip",
+  "put_the_cap_on_the_pen_new": "g2_ctek90d_manip",
+
+  "cover_cup_lid": "g2_wuji",
+  "pick_up_a_package": "g2_wuji",
+  "stack_bowls_wuji": "g2_wuji",
+  "take_the_book": "g2_wuji",
+  "take_the_scissors": "g2_wuji",
+  "wok_flip": "g2_wuji",
+  "cloth_hanger": "g2_wuji",
+  "fold_cloth": "g2_wuji",
+  "drawstring_bag": "g2_wuji",
+  "rubik_cube_solve_2turn": "g2_wuji",
+
+  "hang_cups_on_cup_tree_g2_omnipicker": "g2op",
+  "keyboard_keycap_swap_g2_omnipicker": "g2op",
+  "pour_50ml_into_graduated_cylinder_g2_omnipicker": "g2op",
+  "scrape_chicken_bone_into_bin_g2_omnipicker": "g2op",
+  "write_uppercase_letter_with_pen_g2_omnipicker": "g2op",
+
+  "hang_cups_on_cup_tree_g1": "g1op",
+  "keyboard_keycap_swap_g1": "g1op",
+  "pour_50ml_into_graduated_cylinder_g1": "g1op",
+  "scrape_chicken_bone_into_bin_g1": "g1op",
+  "write_uppercase_letter_with_pen_g1": "g1op",
+
+  "hang_cups_on_cup_tree_arxone": "arx",
+  "keyboard_keycap_swap_arxone": "arx",
+  "pour_50ml_into_graduated_cylinder_arxone": "arx",
+  "scrape_chicken_bone_into_bin_arxone": "arx",
+  "write_uppercase_letter_with_pen_arxone": "arx",
+
+  "hang_cups_on_cup_tree_agilex": "agilex",
+  "keyboard_keycap_swap_agilex": "agilex",
+  "pour_50ml_into_graduated_cylinder_agilex": "agilex",
+  "scrape_chicken_bone_into_bin_agilex": "agilex",
+  "write_uppercase_letter_with_pen_agilex": "agilex",
+
+  "open_short_trash_can_and_throw_garbage_multi_robot": {
+    "g2a_sim": "g2op",
+    "a2d_sim": "g1op",
+    "arx_sim": "arx",
+    "agilex_sim": "agilex"
+  }
+}

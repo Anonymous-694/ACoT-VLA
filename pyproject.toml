@@ -53,6 +53,16 @@ dev = [
     "matplotlib>=3.10.0",
     "pynvml>=12.0.0",
 ]
+# Tested dependency profile for the optional four-track entrypoints.
+four-tracks = [
+    "torch==2.7.0",
+    "torchvision==0.22.0",
+    "pyarrow==20.0.0",
+    "datasets==3.6.0",
+    "websockets==15.0.1",
+    "av==17.0.0",
+    "torchcodec==0.4.0",
+]
 rlds = [
     "dlimp",
     "tensorflow-cpu==2.15.0",

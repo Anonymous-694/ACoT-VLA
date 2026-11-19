@@ -1,0 +1,59 @@
+{
+  "datasets": [
+    {
+      "path": "../data/dexterous_manipulation/pick_package",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/stack_bowls",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/pick_book",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/pick_scissors",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/put_lid_on_cup",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/fold_clothes",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/pan_tossing",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/hang_clothes",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/garbage_bag",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/rubik_cube_2turn",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    }
+  ],
+  "norm_stats": {
+    "g2_wuji": "../norm_stats/g2_wuji/norm_stats.json"
+  },
+  "tokenizer_path": "../assets/tokenizer.model",
+  "sampler": ""
+}

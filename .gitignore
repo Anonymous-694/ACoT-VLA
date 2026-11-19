@@ -2,6 +2,7 @@
 assets/
 checkpoints/
 data/
+norm_stats/
 wandb/
 
 # Byte-compiled / optimized / DLL files

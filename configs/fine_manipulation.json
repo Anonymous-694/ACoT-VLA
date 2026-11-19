@@ -1,0 +1,49 @@
+{
+  "datasets": [
+    {
+      "path": "../data/precision_manipulation/insert_star_block",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    },
+    {
+      "path": "../data/precision_manipulation/insert_straw",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    },
+    {
+      "path": "../data/precision_manipulation/assemble_gear",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    },
+    {
+      "path": "../data/precision_manipulation/plug_ethernet_cable",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    },
+    {
+      "path": "../data/precision_manipulation/cap_the_pen",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    },
+    {
+      "path": "../data/precision_manipulation/insert_coin_piggybank",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    },
+    {
+      "path": "../data/precision_manipulation/plug_charging_cable_into_phone",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    },
+    {
+      "path": "../data/precision_manipulation/phone_packaging",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    }
+  ],
+  "norm_stats": {
+    "g2_ctek90d_manip": "../norm_stats/g2_ctek90d_manip/norm_stats.json"
+  },
+  "tokenizer_path": "../assets/tokenizer.model",
+  "sampler": ""
+}

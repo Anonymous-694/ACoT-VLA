@@ -1,0 +1,132 @@
+{
+  "datasets": [
+    {
+      "path": "../data/cross_embodiment_transfer/throw_garbage_g1",
+      "norm_group": "g1op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/write_letters_g1",
+      "norm_group": "g1op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/pour_50ml_g1",
+      "norm_group": "g1op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/hang_cup_g1",
+      "norm_group": "g1op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/scrape_trash_g1",
+      "norm_group": "g1op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/keycap_swap_g1",
+      "norm_group": "g1op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/throw_garbage_g2",
+      "norm_group": "g2op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/write_letters_g2",
+      "norm_group": "g2op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/pour_50ml_g2",
+      "norm_group": "g2op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/hang_cup_g2",
+      "norm_group": "g2op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/scrape_trash_g2",
+      "norm_group": "g2op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/keycap_swap_g2",
+      "norm_group": "g2op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/throw_garbage_arx",
+      "norm_group": "arx",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/write_letters_arx",
+      "norm_group": "arx",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/pour_50ml_arx",
+      "norm_group": "arx",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/hang_cup_arx",
+      "norm_group": "arx",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/scrape_trash_arx",
+      "norm_group": "arx",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/keycap_swap_arx",
+      "norm_group": "arx",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/throw_garbage_aloha",
+      "norm_group": "agilex",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/write_letters_aloha",
+      "norm_group": "agilex",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/pour_50ml_aloha",
+      "norm_group": "agilex",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/hang_cup_aloha",
+      "norm_group": "agilex",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/scrape_trash_aloha",
+      "norm_group": "agilex",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/keycap_swap_aloha",
+      "norm_group": "agilex",
+      "track": "multi_embodiment"
+    }
+  ],
+  "norm_stats": {
+    "agilex": "../norm_stats/agilex/norm_stats.json",
+    "arx": "../norm_stats/arx/norm_stats.json",
+    "g1op": "../norm_stats/g1op/norm_stats.json",
+    "g2op": "../norm_stats/g2op/norm_stats.json"
+  },
+  "tokenizer_path": "../assets/tokenizer.model",
+  "sampler": ""
+}

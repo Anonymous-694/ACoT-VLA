@@ -1,0 +1,49 @@
+{
+  "datasets": [
+    {
+      "path": "../data/whole_body_coordination/deliver_tissues",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    },
+    {
+      "path": "../data/whole_body_coordination/plate_rack",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    },
+    {
+      "path": "../data/whole_body_coordination/conveyor",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    },
+    {
+      "path": "../data/whole_body_coordination/pick_trash",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    },
+    {
+      "path": "../data/whole_body_coordination/door",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    },
+    {
+      "path": "../data/whole_body_coordination/roller_shutter_door",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    },
+    {
+      "path": "../data/whole_body_coordination/wipe_whiteboard",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    },
+    {
+      "path": "../data/whole_body_coordination/push_cart_sort_packages",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    }
+  ],
+  "norm_stats": {
+    "g2_ctek90d_wbc": "../norm_stats/g2_ctek90d_wbc/norm_stats.json"
+  },
+  "tokenizer_path": "../assets/tokenizer.model",
+  "sampler": ""
+}

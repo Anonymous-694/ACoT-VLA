@@ -1,0 +1,265 @@
+{
+  "datasets": [
+    {
+      "path": "../data/whole_body_coordination/deliver_tissues",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    },
+    {
+      "path": "../data/whole_body_coordination/plate_rack",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    },
+    {
+      "path": "../data/whole_body_coordination/conveyor",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    },
+    {
+      "path": "../data/whole_body_coordination/pick_trash",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    },
+    {
+      "path": "../data/whole_body_coordination/door",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    },
+    {
+      "path": "../data/whole_body_coordination/roller_shutter_door",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    },
+    {
+      "path": "../data/whole_body_coordination/wipe_whiteboard",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    },
+    {
+      "path": "../data/whole_body_coordination/push_cart_sort_packages",
+      "norm_group": "g2_ctek90d_wbc",
+      "track": "wbc"
+    },
+    {
+      "path": "../data/precision_manipulation/insert_star_block",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    },
+    {
+      "path": "../data/precision_manipulation/insert_straw",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    },
+    {
+      "path": "../data/precision_manipulation/assemble_gear",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    },
+    {
+      "path": "../data/precision_manipulation/plug_ethernet_cable",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    },
+    {
+      "path": "../data/precision_manipulation/cap_the_pen",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    },
+    {
+      "path": "../data/precision_manipulation/insert_coin_piggybank",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    },
+    {
+      "path": "../data/precision_manipulation/plug_charging_cable_into_phone",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    },
+    {
+      "path": "../data/precision_manipulation/phone_packaging",
+      "norm_group": "g2_ctek90d_manip",
+      "track": "fine_manipulation"
+    },
+    {
+      "path": "../data/dexterous_manipulation/pick_package",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/stack_bowls",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/pick_book",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/pick_scissors",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/put_lid_on_cup",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/fold_clothes",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/pan_tossing",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/hang_clothes",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/garbage_bag",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/dexterous_manipulation/rubik_cube_2turn",
+      "norm_group": "g2_wuji",
+      "track": "dexterous"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/throw_garbage_g1",
+      "norm_group": "g1op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/write_letters_g1",
+      "norm_group": "g1op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/pour_50ml_g1",
+      "norm_group": "g1op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/hang_cup_g1",
+      "norm_group": "g1op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/scrape_trash_g1",
+      "norm_group": "g1op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/keycap_swap_g1",
+      "norm_group": "g1op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/throw_garbage_g2",
+      "norm_group": "g2op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/write_letters_g2",
+      "norm_group": "g2op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/pour_50ml_g2",
+      "norm_group": "g2op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/hang_cup_g2",
+      "norm_group": "g2op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/scrape_trash_g2",
+      "norm_group": "g2op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/keycap_swap_g2",
+      "norm_group": "g2op",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/throw_garbage_arx",
+      "norm_group": "arx",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/write_letters_arx",
+      "norm_group": "arx",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/pour_50ml_arx",
+      "norm_group": "arx",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/hang_cup_arx",
+      "norm_group": "arx",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/scrape_trash_arx",
+      "norm_group": "arx",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/keycap_swap_arx",
+      "norm_group": "arx",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/throw_garbage_aloha",
+      "norm_group": "agilex",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/write_letters_aloha",
+      "norm_group": "agilex",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/pour_50ml_aloha",
+      "norm_group": "agilex",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/hang_cup_aloha",
+      "norm_group": "agilex",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/scrape_trash_aloha",
+      "norm_group": "agilex",
+      "track": "multi_embodiment"
+    },
+    {
+      "path": "../data/cross_embodiment_transfer/keycap_swap_aloha",
+      "norm_group": "agilex",
+      "track": "multi_embodiment"
+    }
+  ],
+  "norm_stats": {
+    "agilex": "../norm_stats/agilex/norm_stats.json",
+    "arx": "../norm_stats/arx/norm_stats.json",
+    "g1op": "../norm_stats/g1op/norm_stats.json",
+    "g2_ctek90d_manip": "../norm_stats/g2_ctek90d_manip/norm_stats.json",
+    "g2_ctek90d_wbc": "../norm_stats/g2_ctek90d_wbc/norm_stats.json",
+    "g2_wuji": "../norm_stats/g2_wuji/norm_stats.json",
+    "g2op": "../norm_stats/g2op/norm_stats.json"
+  },
+  "tokenizer_path": "../assets/tokenizer.model",
+  "sampler": ""
+}

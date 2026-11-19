@@ -1,0 +1,91 @@
+{
+  "g2_ctek90d": {
+    "robot_type": "g2a_sim",
+    "ee_type": "zhiyuan_gripper_ctek90d",
+    "end_effector_type": "ctek90d",
+    "embodiment": "gseries",
+    "arm_dof_per_side": 7,
+    "gripper": {
+      "state": [-0.785, 0.0],
+      "action": [-0.785, 0.0]
+    },
+    "scenarios": {
+      "wbc": "g2_ctek90d_wbc",
+      "manip": "g2_ctek90d_manip"
+    }
+  },
+  "g2_omnipicker": {
+    "robot_type": "g2a_sim",
+    "ee_type": "zhiyuan_gripper_omnipicker",
+    "end_effector_type": "omnipicker",
+    "embodiment": "gseries",
+    "arm_dof_per_side": 7,
+    "gripper": {
+      "state": [-0.785, 0.0],
+      "action": [-0.785, 0.0]
+    },
+    "norm_group": "g2op"
+  },
+  "g2_wuji": {
+    "robot_type": "g2a_sim",
+    "ee_type": "wuji",
+    "end_effector_type": "wuji",
+    "embodiment": "dex",
+    "arm_dof_per_side": 7,
+    "hand_dof_per_side": 20,
+    "gripper": {
+      "state": [0.0, 0.0],
+      "action": [0.0, 0.0]
+    },
+    "norm_group": "g2_wuji"
+  },
+  "g2wuji_sim": {
+    "robot_type": "g2wuji",
+    "ee_type": "wuji",
+    "end_effector_type": "wuji",
+    "embodiment": "dex",
+    "arm_dof_per_side": 7,
+    "hand_dof_per_side": 20,
+    "gripper": {
+      "state": [0.0, 0.0],
+      "action": [0.0, 0.0]
+    },
+    "norm_group": "g2_wuji"
+  },
+  "arx_sim": {
+    "robot_type": "arx_sim",
+    "ee_type": "arx_gripper",
+    "end_effector_type": "arx_gripper",
+    "embodiment": "arx",
+    "arm_dof_per_side": 6,
+    "gripper": {
+      "state": [-3.5, 0.0],
+      "action": [-3.5, 0.0]
+    },
+    "norm_group": "arx"
+  },
+  "agilex_sim": {
+    "robot_type": "agilex_sim",
+    "ee_type": "agilex_gripper",
+    "end_effector_type": "agilex_gripper",
+    "embodiment": "aloha",
+    "arm_dof_per_side": 6,
+    "gripper": {
+      "state": [-3.5, 0.0],
+      "action": [-3.5, 0.0]
+    },
+    "norm_group": "agilex"
+  },
+  "a2d_sim": {
+    "robot_type": "a2d_sim",
+    "ee_type": "zhiyuan_gripper_omnipicker",
+    "end_effector_type": "omnipicker",
+    "embodiment": "gseries",
+    "arm_dof_per_side": 7,
+    "gripper": {
+      "state": [0.0, 120.0],
+      "action": [0.0, 1.0]
+    },
+    "norm_group": "g1op"
+  }
+}
